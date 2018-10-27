@@ -1,5 +1,5 @@
 # senki/gct-converter
-A simple converter utility between [Morpheus](https://software.broadinstitute.org/morpheus/) GCT (heatmap) and csv file, which can be imported as a join/pivot table in any RDB.  
+A simple converter utility between [Morpheus](https://software.broadinstitute.org/morpheus/) GCT (heatmap) and CSV file, which can be imported as a join/pivot table in any RDB.  
 Tested with huge, multi-gigabyte files.
 
 ## Install
