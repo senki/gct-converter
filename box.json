@@ -1,0 +1,8 @@
+{
+    "compression": "GZ",
+    "files": [
+        "config/commands.php"
+    ],
+    "main": "converter.php",
+    "output": "gct-converter.phar"
+}
