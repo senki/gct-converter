@@ -3,7 +3,7 @@ A simple converter utility between [Morpheus](https://software.broadinstitute.or
 Tested with huge, multi-gigabyte files.
 
 ## Install
-Download [`gct-converter.phar`](https://github.com/senki/gct-converter/releases/latest) from the latest release and set permission if needed `chmod x gct-converter.phar`.
+Download [`gct-converter.phar`](https://github.com/senki/gct-converter/releases/latest) from the latest release and set permission if needed `chmod +x gct-converter.phar`.
 
 Alternatively, download/clone this repo and install dependencies: `composer install`.
 
