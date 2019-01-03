@@ -10,7 +10,7 @@ define('BASEDIR', __DIR__);
 require BASEDIR . '/vendor/autoload.php';
 
 // Init App
-$app = new Application('senki/gct-converter', 'v1.0.0');
+$app = new Application('senki/gct-converter', 'v1.1.0');
 
 // init Dependecy Container
 $container = new Container;
