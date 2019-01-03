@@ -40,7 +40,8 @@ class ToMatrix extends Command
         // Count for steps with a message
         $section = $output->section();
         $section->write('Counting Records...');
-        $max = (int) round(sqrt(count($io->reader)));
+        $max = (int) round(sqrt($io->count - 1));
+        $section->write("  $max record found.");
         $section->clear();
 
         // Init CSVs

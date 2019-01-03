@@ -14,6 +14,7 @@ class IO
     private $outputFile;
     private $suffix;
 
+    private $count;
     private $reader;
     private $writer;
 
@@ -31,6 +32,8 @@ class IO
                 return $this->reader ?? $this->initReader();
             case 'writer':
                 return $this->writer ?? $this->initWriter();
+            case 'count':
+                return $this->count ?? $this->countLines();
             default:
                 throw new InvalidArgumentException("$name not allowed", 1);
         }
@@ -65,5 +68,17 @@ class IO
     {
         $this->writer = Writer::createFromPath($this->outputFile, 'w+');
         return $this->writer;
+    }
+
+    private function countLines()
+    {
+        $this->count = 0;
+        $handle = fopen($this->inputFile, "r");
+        while (!feof($handle)) {
+            $line = fgets($handle);
+            $this->count++;
+        }
+        fclose($handle);
+        return $this->count;
     }
 }

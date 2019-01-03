@@ -42,7 +42,8 @@ class ToJoin extends Command
         // Count for steps with a message
         $section = $output->section();
         $section->write('Counting Records...');
-        $max = count($io->reader) ** 2;
+        $max = ($io->count - 3) ** 2;
+        $section->write("  $max record found.");
         $section->clear();
 
         // Start Progress Bar
