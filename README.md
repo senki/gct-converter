@@ -1,5 +1,5 @@
 # senki/gct-converter
-A simple converter utility between [Morpheus](https://software.broadinstitute.org/morpheus/) GCT (heatmap) and CSV file, which can be imported as a join/pivot table in any RDB.  
+A simple command line converter utility between [Morpheus](https://software.broadinstitute.org/morpheus/) [GCT](http://software.broadinstitute.org/cancer/software/genepattern/file-formats-guide#GCT) (heatmap) and CSV file, which can be imported as a join/pivot table in any RDB.  
 Tested with huge, multi-gigabyte files.
 
 ## Install
