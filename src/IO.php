@@ -4,6 +4,7 @@ namespace App;
 use League\Csv\Reader;
 use League\Csv\Writer;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
+use Webmozart\PathUtil\Path;
 
 /**
  * Class IO
@@ -12,22 +13,20 @@ class IO
 {
     private $inputFile;
     private $outputFile;
-    private $suffix;
 
     private $count;
     private $reader;
     private $writer;
 
-    public function __construct($path, $suffix = 'output')
+    public function __construct($path, $suffix = 'output.ext')
     {
-        $this->suffix = $suffix;
-        $path = $this->checkInputFilePath($path);
-        $this->assemblePaths($path);
+        $this->inputFile  = $this->setInputFilePath($path);
+        $this->outputFile = $this->setOutputFilePath($path, $suffix);
     }
 
-    public function __get($name)
+    public function __get($type)
     {
-        switch ($name) {
+        switch ($type) {
             case 'reader':
                 return $this->reader ?? $this->initReader();
             case 'writer':
@@ -35,27 +34,27 @@ class IO
             case 'count':
                 return $this->count ?? $this->countLines();
             default:
-                throw new InvalidArgumentException("$name not allowed", 1);
+                throw new InvalidArgumentException("$type not allowed", 1);
         }
     }
 
-    private function checkInputFilePath($path)
+    private function setInputFilePath($path)
     {
+        $path = Path::makeAbsolute($path, BASEDIR);
         if (!file_exists($path) || !is_file($path)) {
             throw new InvalidArgumentException("$path not exists or not a file", 1);
         }
-        return realpath($path) ?: realpath(__DIR__.DIRECTORY_SEPARATOR.$path) ;
+        return $path;
     }
 
-    private function assemblePaths($path)
+    private function setOutputFilePath($path, $suffix)
     {
-        $this->inputFile  = $path;
-        $fileInfo         = pathinfo($this->inputFile);
-        $this->outputFile = $fileInfo['dirname'].
-            DIRECTORY_SEPARATOR.
-            $fileInfo['filename'].
+        return Path::canonicalize(
+            Path::getDirectory($path).
+            Path::getFilenameWithoutExtension($path).
             '-'.
-            $this->suffix;
+            $suffix
+        );
     }
 
     private function initReader()
