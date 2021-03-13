@@ -52,9 +52,9 @@ class ToJoin extends Command
         $progressBar->setFormat('verbose');
         $progressBar->start();
 
-        // Init CSVs
-        $io->reader->setDelimiter("\t");
-        $io->reader->setHeaderOffset(2);
+        // Init CSV
+        $io->reader->setDelimiter(",");
+        $io->reader->setHeaderOffset(0);
         $io->writer->insertOne($this->headers);
         $io->writer->setFlushThreshold($chunk);
 
@@ -64,7 +64,7 @@ class ToJoin extends Command
             $progressBar->advance();
         }
 
-        // Finish Progres Bar
+        // Finish Progress Bar
         $progressBar->finish();
         $output->writeln('');
     }
@@ -72,9 +72,9 @@ class ToJoin extends Command
     private function convertToJoin($io)
     {
         foreach ($io->reader as $offset => $record) {
-            if ($offset < 2) {
-                continue;
-            }
+            // if ($offset < 2) {
+            //     continue;
+            // }
             $base = array_shift($record);
             foreach ($record as $related => $value) {
                 $buffer = array_combine($this->headers, [$base, $value, $related]);

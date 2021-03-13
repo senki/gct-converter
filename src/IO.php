@@ -13,6 +13,7 @@ class IO
 {
     private $inputFile;
     private $outputFile;
+    private $cwd;
 
     private $count;
     private $reader;
@@ -20,6 +21,11 @@ class IO
 
     public function __construct($path, $suffix = 'output.ext')
     {
+        $cwd = \getcwd();
+        if ($cwd === false) {
+            throw new InvalidArgumentException("CWD: $cwd not get. Wierd", 1);
+        }
+        $this->cwd        = $cwd;
         $this->inputFile  = $this->setInputFilePath($path);
         $this->outputFile = $this->setOutputFilePath($path, $suffix);
     }
@@ -40,7 +46,7 @@ class IO
 
     private function setInputFilePath($path)
     {
-        $path = Path::makeAbsolute($path, BASEDIR);
+        $path = Path::makeAbsolute($path, $this->cwd);
         if (!file_exists($path) || !is_file($path)) {
             throw new InvalidArgumentException("$path not exists or not a file", 1);
         }
@@ -50,9 +56,9 @@ class IO
     private function setOutputFilePath($path, $suffix)
     {
         return Path::canonicalize(
-            Path::getDirectory($path).
-            Path::getFilenameWithoutExtension($path).
-            '-'.
+            Path::getDirectory($path) .
+            Path::getFilenameWithoutExtension($path) .
+            '-' .
             $suffix
         );
     }
@@ -74,8 +80,10 @@ class IO
         $this->count = 0;
         $handle = fopen($this->inputFile, "r");
         while (!feof($handle)) {
-            $line = fgets($handle);
-            $this->count++;
+            $line = fgets($handle, 4096);
+            if ($line !== false) {
+                $this->count = $this->count + substr_count($line, PHP_EOL);
+            }
         }
         fclose($handle);
         return $this->count;

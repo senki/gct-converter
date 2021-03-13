@@ -5,9 +5,7 @@ use League\Container\Container;
 use League\Container\ReflectionContainer;
 use Symfony\Component\Console\Application;
 
-define('BASEDIR', __DIR__);
-
-require BASEDIR . '/vendor/autoload.php';
+require __DIR__ . '/vendor/autoload.php';
 
 // Init App
 $app = new Application('senki/gct-converter', 'v1.1.0');
@@ -19,7 +17,7 @@ $container->delegate(
 );
 
 // Load Commands to App
-$commands = require BASEDIR . '/config/commands.php';
+$commands = require __DIR__ . '/config/commands.php';
 foreach ($commands as $commandName) {
     $app->add($container->get($commandName));
 }
